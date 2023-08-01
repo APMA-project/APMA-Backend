@@ -1,0 +1,95 @@
+package APMA.APMAproject.service.admin;
+
+import APMA.APMAproject.domain.admin.AdminEntity;
+import APMA.APMAproject.domain.admin.NoticeEntity;
+import APMA.APMAproject.dto.admin.NoticeDto;
+import APMA.APMAproject.mapper.admin.NoticeMapper;
+import APMA.APMAproject.repository.amin.AdminRepository;
+import APMA.APMAproject.repository.amin.NoticeRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+@Transactional(readOnly = true)
+public class NotcieService {
+
+    private final NoticeRepository noticeRepository;
+    private final AdminRepository adminRepository;
+    private final NoticeMapper noticeMapper;
+
+
+    @Transactional
+    public NoticeDto.NoticeResponseDto createNotice(Long adminId, NoticeDto.NoticeRequestDto noticeRequestDto) {
+
+        AdminEntity adminEntity = adminRepository.findById(adminId)
+                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
+
+        // RequestDto -> Entity
+        NoticeEntity noticeEntity = noticeMapper.toNoticeRequestEntity(noticeRequestDto);
+
+        // DB에 Entity 저장
+        NoticeEntity savedNotice = noticeRepository.save(noticeEntity);
+
+        // Entity -> ResponseDto
+        NoticeDto.NoticeResponseDto responseDto = noticeMapper.toNoticeResponseDto(savedNotice);
+
+        return responseDto;
+    }
+
+    public NoticeDto.NoticeResponseDto getNotice(Long noticeId) {
+
+        return noticeMapper.toNoticeResponseDto(noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 Notice: " + noticeId)));
+
+    }
+
+    @Transactional
+    public NoticeDto.NoticeResponseDto updateNotice(Long noticeId, NoticeDto.NoticePatchDto noticePatchDto) {
+
+        NoticeEntity noticeEntity = noticeRepository.findById(noticePatchDto.getId())
+                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 Notice: " + noticeId));
+
+        noticeMapper.updateFromPatchDto(noticePatchDto,noticeEntity);
+
+        //entity->dto
+        return noticeMapper.toNoticeResponseDto(noticeRepository.findById(noticePatchDto.getId())
+                .orElseThrow(()->new EntityNotFoundException("해당 ID에 해당하는 NoticeEntity를 찾을 수 없음")));
+    }
+
+    @Transactional
+    public void deleteNotice(Long noticeId) {
+        noticeRepository.deleteById(noticeId);
+        log.info("삭제된 Notice: {}",noticeId);
+    }
+
+    @Transactional
+    public List<NoticeDto.NoticeResponseDto> getAllNotice(){
+
+        List<NoticeEntity> noticeEntities = noticeRepository.getAllNotice();
+        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
+
+        for (NoticeEntity noticeEntity : noticeEntities) {
+            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toNoticeResponseDto(noticeEntity);
+            noticeResponseDtos.add(noticeResponseDto);
+        }
+
+        return noticeResponseDtos;
+    }
+
+
+
+
+
+
+
+}
