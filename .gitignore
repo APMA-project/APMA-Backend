@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+*.p12
+/src/main/generated/
+*.yml
+*.properties
