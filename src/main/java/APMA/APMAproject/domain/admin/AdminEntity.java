@@ -19,13 +19,7 @@ public class AdminEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String username; //멤버 아이디
-
     private String password;
-
-    @OneToMany(mappedBy = "admin")
-    private List<MemberEntity> members = new ArrayList<>();
-
 
 
 

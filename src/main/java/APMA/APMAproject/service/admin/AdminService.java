@@ -1,7 +1,9 @@
 package APMA.APMAproject.service.admin;
 
 import APMA.APMAproject.domain.admin.AdminEntity;
+import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.AdminDto;
+import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.mapper.admin.AdminMapper;
 import APMA.APMAproject.repository.amin.AdminRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,10 +28,13 @@ public class AdminService {
      */
 
     public AdminDto.AdminResponseDto getAdmin(Long adminId) {
-        return adminMapper.toAdminResponseDto(adminRepository.findById(adminId)
-                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId)));
-    }
+        // Entity 조회
+        AdminEntity adminEntity = adminRepository.findById(adminId)
+                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
 
+        // Entity를 DTO로 변환 후 return
+        return adminMapper.toResponseDto(adminEntity);
+    }
     @Transactional
     public AdminDto.AdminResponseDto updateAdmin(Long adminId,AdminDto.AdminPatchDto adminPatchDto) {
 
@@ -37,12 +42,14 @@ public class AdminService {
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
 
 
-//        비밀번호 업데이트
-//        if(adminPatchDto.getPassword()!=null) {}; 스프링 시큐리티 적용 후 수정
+        // MemberPatchDto에서 변경된 필드 MemberEntity에 반영
+        adminMapper.updateFromPatchDto(adminPatchDto,adminEntity);
 
-        //entity->dto
-        return adminMapper.toAdminResponseDto(adminRepository.findById(adminId)
-                .orElseThrow(()->new EntityNotFoundException("해당 ID에 해당하는 AdminEntity를 찾을 수 없음")));
+        // 엔티티 저장
+        adminRepository.save(adminEntity);
+
+
+        return adminMapper.toResponseDto(adminEntity);
     }
 
     @Transactional
@@ -50,11 +57,4 @@ public class AdminService {
         adminRepository.deleteById(adminId);
         log.info("삭제된 아이디: {}",adminId);
     }
-
-
-
-
-
-
-
 }

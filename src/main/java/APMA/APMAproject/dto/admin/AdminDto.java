@@ -14,9 +14,6 @@ public class AdminDto {
     public static class AdminResponseDto {
         private Long id;
 
-        private String username;
-
-        private List<Long> memberIds;
 
     }
 
@@ -26,6 +23,7 @@ public class AdminDto {
     @NoArgsConstructor
     @Builder
     public static class AdminPatchDto {
+
 
         //비밀번호 정규식. 8~15자 영문, 숫자, 특수문자 조합으로 이뤄져야한다.
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$",

@@ -26,19 +26,16 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     @Transactional
-    public MemberDto.MemberResponseDto createMember(Long adminId, MemberDto.MemberRequestDto memberRequestDto) {
-
-        AdminEntity adminEntity = adminRepository.findById(adminId)
-                .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
+    public MemberDto.MemberResponseDto createMember(MemberDto.MemberRequestDto memberRequestDto) {
 
         // RequestDto -> Entity
-        MemberEntity memberEntity = memberMapper.toMemberRequestEntity(memberRequestDto);
+        MemberEntity memberEntity = memberMapper.toRequestEntity(memberRequestDto);
 
         // DB에 Entity 저장
         MemberEntity savedMember = memberRepository.save(memberEntity);
 
         // Entity -> ResponseDto
-        MemberDto.MemberResponseDto responseDto = memberMapper.toMemberResponseDto(savedMember);
+        MemberDto.MemberResponseDto responseDto = memberMapper.toResponseDto(savedMember);
 
         return responseDto;
     }
@@ -50,7 +47,7 @@ public class MemberService {
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + memberId));
 
         // Entity를 DTO로 변환 후 return
-        return memberMapper.toMemberResponseDto(memberEntity);
+        return memberMapper.toResponseDto(memberEntity);
     }
 
 
@@ -61,26 +58,13 @@ public class MemberService {
         MemberEntity memberEntity = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + memberId));
 
-        // Update
-        if (memberPatchDto.getUsername() != null) {
-            memberEntity.setUsername(memberPatchDto.getUsername());
-        }
-        if (memberPatchDto.getEmail() != null) {
-            memberEntity.setEmail(memberPatchDto.getEmail());
-        }
-        if (memberPatchDto.getName() != null) {
-            memberEntity.setName(memberPatchDto.getName());
-        }
-        if (memberPatchDto.getPhoneNumber() != null) {
-            memberEntity.setPhoneNumber(memberPatchDto.getPhoneNumber());
-        }
-//        if (memberPatchDto.getPassword() != null) {
-//
-//            memberEntity.setPassword();
-//        } 스프링 시큐리티 적용 후 수정
+        // MemberPatchDto에서 변경된 필드 MemberEntity에 반영
+        memberMapper.updateFromPatchDto(memberPatchDto,memberEntity);
 
-        // entity->dto 후 return
-        return memberMapper.toMemberResponseDto(memberEntity);
+        // 엔티티 저장
+        memberRepository.save(memberEntity);
+
+        return memberMapper.toResponseDto(memberEntity);
     }
 
     @Transactional
@@ -96,7 +80,7 @@ public class MemberService {
         List<MemberDto.MemberResponseDto> memberResponseDtos = new ArrayList<>();
 
         for (MemberEntity memberEntity : memberEntities){
-            MemberDto.MemberResponseDto memberResponseDto = memberMapper.toMemberResponseDto(memberEntity);
+            MemberDto.MemberResponseDto memberResponseDto = memberMapper.toResponseDto(memberEntity);
             memberResponseDtos.add(memberResponseDto);
         }
 

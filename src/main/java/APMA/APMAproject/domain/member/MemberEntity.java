@@ -17,7 +17,7 @@ public class MemberEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String username; //멤버 아이디
+    private String userId; //멤버 아이디
 
     private String name;
 
@@ -26,10 +26,6 @@ public class MemberEntity {
     private String password;
 
     private String phoneNumber;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    private AdminEntity admin;
 
 
 }

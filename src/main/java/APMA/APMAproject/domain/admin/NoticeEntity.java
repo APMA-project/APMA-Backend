@@ -38,5 +38,9 @@ public class NoticeEntity {
     @Column(name = "image_url")
     private List<String> images = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private AdminEntity admin;
+
 
 }

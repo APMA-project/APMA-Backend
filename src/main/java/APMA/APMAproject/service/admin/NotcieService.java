@@ -34,21 +34,16 @@ public class NotcieService {
         AdminEntity adminEntity = adminRepository.findById(adminId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
 
-        // RequestDto -> Entity
-        NoticeEntity noticeEntity = noticeMapper.toNoticeRequestEntity(noticeRequestDto);
 
-        // DB에 Entity 저장
-        NoticeEntity savedNotice = noticeRepository.save(noticeEntity);
-
-        // Entity -> ResponseDto
-        NoticeDto.NoticeResponseDto responseDto = noticeMapper.toNoticeResponseDto(savedNotice);
+        NoticeEntity savedNotice = noticeRepository.save(noticeMapper.toRequestEntity(noticeRequestDto, adminEntity));
+        NoticeDto.NoticeResponseDto responseDto = noticeMapper.toResponseDto(savedNotice);
 
         return responseDto;
     }
 
     public NoticeDto.NoticeResponseDto getNotice(Long noticeId) {
 
-        return noticeMapper.toNoticeResponseDto(noticeRepository.findById(noticeId)
+        return noticeMapper.toResponseDto(noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 Notice: " + noticeId)));
 
     }
@@ -56,14 +51,14 @@ public class NotcieService {
     @Transactional
     public NoticeDto.NoticeResponseDto updateNotice(Long noticeId, NoticeDto.NoticePatchDto noticePatchDto) {
 
-        NoticeEntity noticeEntity = noticeRepository.findById(noticePatchDto.getId())
+        NoticeEntity noticeEntity = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 Notice: " + noticeId));
 
         noticeMapper.updateFromPatchDto(noticePatchDto,noticeEntity);
 
-        //entity->dto
-        return noticeMapper.toNoticeResponseDto(noticeRepository.findById(noticePatchDto.getId())
-                .orElseThrow(()->new EntityNotFoundException("해당 ID에 해당하는 NoticeEntity를 찾을 수 없음")));
+        noticeRepository.save(noticeEntity);
+
+        return noticeMapper.toResponseDto(noticeEntity);
     }
 
     @Transactional
@@ -79,7 +74,7 @@ public class NotcieService {
         List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
 
         for (NoticeEntity noticeEntity : noticeEntities) {
-            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toNoticeResponseDto(noticeEntity);
+            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
             noticeResponseDtos.add(noticeResponseDto);
         }
 

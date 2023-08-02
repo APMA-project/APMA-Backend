@@ -17,6 +17,8 @@ public class NoticeDto {
     @Builder
     public static class NoticeRequestDto {
 
+        private Long id;
+
         private String title;
 
         private String content;
@@ -36,6 +38,7 @@ public class NoticeDto {
         private Long id;
 
         private String title;
+
         private String content;
 
         private NoticeType noticeType;
@@ -43,6 +46,8 @@ public class NoticeDto {
         private List<String> images;
 
         private Long adminId;
+
+
 
     }
 
@@ -54,8 +59,6 @@ public class NoticeDto {
     @Builder
     public static class NoticePatchDto {
 
-        @NotNull(message = "Notice ID는 필수값입니다.")
-        private Long id;
 
         @NotEmpty(message = "Title은 필수값입니다.")
         private String title;
