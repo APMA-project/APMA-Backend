@@ -17,7 +17,6 @@ public class NoticeDto {
     @Builder
     public static class NoticeRequestDto {
 
-        private Long id; //todo : RequestDto에는 id가 필요하지 않음
 
         private String title;
 
@@ -65,7 +64,7 @@ public class NoticeDto {
 
         private String content;
 
-        private List<String> images; //todo: noticeMapper 의 업데이트 로직에서 ignore처리를 하는데 굳이 받을 필요가 없음!!
+        // private List<String> images; //noticeMapper 의 업데이트 로직에서 ignore처리를 하는데 굳이 받을 필요가 없음!!
 
         private NoticeType noticeType;
 

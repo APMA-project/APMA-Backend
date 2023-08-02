@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface NoticeRepository extends JpaRepository<NoticeEntity, Long> {
 
-    @Query("SELECT n FROM NoticeEntity n")
-    List<NoticeEntity> getAllNotice(); //todo : 나중에 페이징 처리도 필요할듯. 이건 나중에 합시다
+//    @Query("SELECT n FROM NoticeEntity n")
+//   List<NoticeEntity> getAllNotice(); // 나중에 페이징 처리도 필요할듯. 이건 나중에 합시다
 
 }

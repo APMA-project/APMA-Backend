@@ -61,8 +61,6 @@ public class MemberService {
         // MemberPatchDto에서 변경된 필드 MemberEntity에 반영
         memberMapper.updateFromPatchDto(memberPatchDto,memberEntity);
 
-        // 엔티티 저장
-        memberRepository.save(memberEntity); //todo : save 하지 않아도 dirty checking 됨
 
         return memberMapper.toResponseDto(memberEntity);
     }

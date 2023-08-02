@@ -20,9 +20,7 @@ public class AdminController {
 
     @GetMapping("/getAdmin")
     public ResponseEntity<?> getAdmin(@RequestParam("adminId") Long adminId) {
-        // Assume memberId is provided as a request parameter
-        adminService.getAdmin(adminId);
-        return ResponseEntity.ok().body("조회된 MemberId: " + adminId); //todo : adminService.getAdmin(adminId)의 리턴값을 body에 담아 리턴해야함
+        return ResponseEntity.ok().body(adminService.getAdmin(adminId)); //todo : adminService.getAdmin(adminId)의 리턴값을 body에 담아 리턴해야함
     }
 
     @PatchMapping("/updateAdmin")

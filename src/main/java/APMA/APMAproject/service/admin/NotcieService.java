@@ -56,8 +56,6 @@ public class NotcieService {
 
         noticeMapper.updateFromPatchDto(noticePatchDto,noticeEntity);
 
-        noticeRepository.save(noticeEntity); //todo : save 하지 않아도 dirty checking 됨
-
         return noticeMapper.toResponseDto(noticeEntity);
     }
 
@@ -67,19 +65,19 @@ public class NotcieService {
         log.info("삭제된 Notice: {}",noticeId);
     }
 
-    @Transactional
-    public List<NoticeDto.NoticeResponseDto> getAllNotice(){
-
-        List<NoticeEntity> noticeEntities = noticeRepository.getAllNotice();
-        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
-
-        for (NoticeEntity noticeEntity : noticeEntities) {
-            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
-            noticeResponseDtos.add(noticeResponseDto);
-        }
-
-        return noticeResponseDtos;
-    }
+//    @Transactional
+//    public List<NoticeDto.NoticeResponseDto> getAllNotice(){
+//
+//        List<NoticeEntity> noticeEntities = noticeRepository.getAllNotice();
+//        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
+//
+//        for (NoticeEntity noticeEntity : noticeEntities) {
+//            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
+//            noticeResponseDtos.add(noticeResponseDto);
+//        }
+//
+//        return noticeResponseDtos;
+//    }
 
 
 
