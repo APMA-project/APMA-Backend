@@ -46,7 +46,7 @@ public class AdminService {
         adminMapper.updateFromPatchDto(adminPatchDto,adminEntity);
 
         // 엔티티 저장
-        adminRepository.save(adminEntity);
+        adminRepository.save(adminEntity); //todo : save 해주지 않아도 이미 persistence context에 객체가 존재하기 때문에 dirty checking 을 사용할 수 있음.
 
 
         return adminMapper.toResponseDto(adminEntity);

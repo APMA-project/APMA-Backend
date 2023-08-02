@@ -56,7 +56,7 @@ public class NotcieService {
 
         noticeMapper.updateFromPatchDto(noticePatchDto,noticeEntity);
 
-        noticeRepository.save(noticeEntity);
+        noticeRepository.save(noticeEntity); //todo : save 하지 않아도 dirty checking 됨
 
         return noticeMapper.toResponseDto(noticeEntity);
     }

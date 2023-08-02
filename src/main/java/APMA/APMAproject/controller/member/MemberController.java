@@ -27,7 +27,7 @@ public class MemberController {
     public ResponseEntity<?> getMember (@RequestParam("memberId") Long memberId) {
         // Assume memberId is provided as a request parameter
         memberService.getMember(memberId);
-        return ResponseEntity.ok().body("조회된 MemberId: " + memberId);
+        return ResponseEntity.ok().body("조회된 MemberId: " + memberId); //todo : memberService.getMember(memberId)의 리턴값을 body에 담아 리턴해야함
     }
 
     @PatchMapping("/updateMember")
@@ -47,7 +47,7 @@ public class MemberController {
         if (!memberResponseDtos.isEmpty()) {
             return ResponseEntity.ok().body(memberResponseDtos);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); //todo: 프론트에서 exception handling 하기 어려우니 그냥 빈 리스트를 보내는게 나을듯함.
         }
     }
 }

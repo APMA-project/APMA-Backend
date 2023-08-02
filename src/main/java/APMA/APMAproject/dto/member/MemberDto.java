@@ -14,7 +14,7 @@ public class MemberDto {
     @Builder
     public static class MemberRequestDto {
 
-        private Long id;
+        private Long id; //todo : requestDto 에 id가 필요한 이유가 없음.
 
         @NotBlank(message = "아이디를 작성해주세요.")
         private String userId;

@@ -31,7 +31,7 @@ public class NoticeController {
     public ResponseEntity<?> getNotice (@RequestParam("noticeId") Long noticeId) {
         // Assume memberId is provided as a request parameter
         noticeService.getNotice(noticeId);
-        return ResponseEntity.ok().body("조회된 MemberId: " + noticeId);
+        return ResponseEntity.ok().body("조회된 MemberId: " + noticeId); //todo : noticeService.getNotice(noticeId)의 리턴값을 body에 담아 리턴해야함
     }
 
     @PatchMapping("/updateNotice")
@@ -51,7 +51,7 @@ public class NoticeController {
         if (!noticeResponseDtos.isEmpty()) {
             return ResponseEntity.ok().body(noticeResponseDtos);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); //todo: 프론트에서 exception handling 하기 어려우니 그냥 빈 리스트를 보내는게 나을듯함.
         }
     }
 

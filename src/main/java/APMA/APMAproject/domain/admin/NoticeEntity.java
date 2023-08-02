@@ -34,7 +34,6 @@ public class NoticeEntity {
             name = "notice_images",
             joinColumns = @JoinColumn(name = "notice_id")
     )
-
     @Column(name = "image_url")
     private List<String> images = new ArrayList<>();
 
