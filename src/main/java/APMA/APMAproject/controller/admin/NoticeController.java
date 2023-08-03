@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin")
+@RequestMapping("APMA/admin")
 public class NoticeController {
 
     private final NotcieService noticeService;

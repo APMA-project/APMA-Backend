@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("member")
+@RequestMapping("APMA/member")
 public class MemberController {
 
     private final MemberService memberService;
