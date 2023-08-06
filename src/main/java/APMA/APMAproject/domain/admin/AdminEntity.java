@@ -1,5 +1,6 @@
 package APMA.APMAproject.domain.admin;
 
+import APMA.APMAproject.constant.Role;
 import APMA.APMAproject.domain.member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +19,9 @@ public class AdminEntity {
     @Column(name = "admin_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private final Role role = Role.ADMIN;
 
     private String password;
 
