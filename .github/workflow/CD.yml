@@ -1,3 +1,5 @@
+l
+Copy code
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
@@ -36,3 +38,43 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
+
+    ### CD
+    # 배포를 위한 prod properties 설정
+    - name: Make application.yml
+      run: |
+        mkdir -p ./src/main/resources # 디렉토리가 없다면 생성
+        cd ./src/main/resources
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION }}" > ./application.yml
+      shell: bash      
+
+    # test를 제외한 프로젝트 빌드
+    - name: Build With Gradle
+      run: ./gradlew build -x test      
+
+    - name: Make zip file
+      run: zip -r ./$GITHUB_SHA.zip .
+      shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # S3에 업로드
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/backendDeployment.zip   
+
+    # Deploy
+    - name: Deploy
+      run: |
+        aws deploy create-deployment \
+        --application-name TAVE-Backend \
+        --deployment-config-name CodeDeployDefault.AllAtOnce \
+        --deployment-group-name tavebackend-prod \
+        --file-exists-behavior OVERWRITE \
+        --s3-location bucket=tave-bucket,bundleType=zip,key=tave_backend/backendDeployment.zip \
+        --region ap-northeast-2 \  
