@@ -3,8 +3,11 @@ package APMA.APMAproject.domain.member;
 import APMA.APMAproject.config.spring_security.UserEntity;
 import APMA.APMAproject.constant.Role;
 import APMA.APMAproject.domain.admin.AdminEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,6 +27,7 @@ public class MemberEntity implements UserEntity {
 
     private String username; //멤버 아이디
 
+
     private String name;
 
     private String email;
@@ -31,6 +35,12 @@ public class MemberEntity implements UserEntity {
     private String password;
 
     private String phoneNumber;
+
+//    private String birthDay; //생년월일
+
+    @Column(columnDefinition = "DATE") // 컬럼 정의에 DATE 타입을 사용
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDate birthDay;
 
 
 }
