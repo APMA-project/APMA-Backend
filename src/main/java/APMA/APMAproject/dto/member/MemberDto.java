@@ -16,7 +16,7 @@ public class MemberDto {
 
 
         @NotBlank(message = "아이디를 작성해주세요.")
-        private String userId;
+        private String username;
 
         @Email
         @NotBlank(message = "메일을 작성해주세요.")
@@ -46,7 +46,7 @@ public class MemberDto {
     public static class MemberResponseDto {
         private Long id;
 
-        private String userId;
+        private String username;
 
         private String email;
 
@@ -64,7 +64,7 @@ public class MemberDto {
     public static class MemberPatchDto {
 
         @NotBlank(message = "아이디를 작성해주세요.")
-        private String userId;
+        private String username;
 
         @Email
         @NotBlank(message = "메일을 작성해주세요.")

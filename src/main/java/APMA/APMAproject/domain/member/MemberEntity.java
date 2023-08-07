@@ -1,5 +1,6 @@
 package APMA.APMAproject.domain.member;
 
+import APMA.APMAproject.config.spring_security.UserEntity;
 import APMA.APMAproject.constant.Role;
 import APMA.APMAproject.domain.admin.AdminEntity;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberEntity {
+public class MemberEntity implements UserEntity {
 
     @Id
     @Column(name = "member_id")
@@ -21,7 +22,7 @@ public class MemberEntity {
     @Enumerated(EnumType.STRING)
     private final Role role = Role.MEMBER;
 
-    private String userId; //멤버 아이디
+    private String username; //멤버 아이디
 
     private String name;
 

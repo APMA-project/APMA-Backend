@@ -1,4 +1,5 @@
 package APMA.APMAproject.dto.admin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class AdminDto {
     @Builder
     public static class AdminResponseDto {
         private Long id;
+        private String username;
 
 
     }
@@ -23,6 +25,9 @@ public class AdminDto {
     @NoArgsConstructor
     @Builder
     public static class AdminPatchDto {
+
+        @NotBlank(message = "아이디를 작성해주세요.")
+        private String username;
 
 
         //비밀번호 정규식. 8~15자 영문, 숫자, 특수문자 조합으로 이뤄져야한다.
