@@ -15,11 +15,14 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+
     private final AdminRepository adminRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("PrincipalDetailsService : 진입");
+        System.out.println(username);
 
         if (username.contains("admin_")) {
             AdminEntity adminEntity = adminRepository.findByUsername(username);
@@ -27,6 +30,8 @@ public class PrincipalDetailsService implements UserDetailsService {
             return new PrincipalDetails(adminEntity);
         } else {
             MemberEntity memberEntity = memberRepository.findByUsername(username);
+
+
 
             return new PrincipalDetails(memberEntity);
         }

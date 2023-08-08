@@ -1,7 +1,7 @@
 package APMA.APMAproject.controller.member;
+
 import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.service.member.MemberService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,14 @@ public class MemberController {
 
     @PostMapping("/createMember")
     public ResponseEntity<?> createMember(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
-       return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
+        return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
     }
 
     @GetMapping("/getMember")
     public ResponseEntity<?> getMember (@RequestParam("memberId") Long memberId) {
         // Assume memberId is provided as a request parameter
-        return ResponseEntity.ok().body(memberService.getMember(memberId));
+        memberService.getMember(memberId);
+        return ResponseEntity.ok().body("조회된 MemberId: " + memberId);
     }
 
     @PatchMapping("/updateMember")
@@ -43,8 +44,17 @@ public class MemberController {
     @GetMapping("/getAllMembers")
     public ResponseEntity<List<MemberDto.MemberResponseDto>> getAllMembers() {
         List<MemberDto.MemberResponseDto> memberResponseDtos = memberService.getAllMember();
-
-        return ResponseEntity.ok().body(memberResponseDtos);
-
+        if (!memberResponseDtos.isEmpty()) {
+            return ResponseEntity.ok().body(memberResponseDtos);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+//    @PostMapping("/join")
+//    public ResponseEntity<MemberDto.MemberResponseDto> join(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
+//        memberRequestDto.setPassword(new BCryptPasswordEncoder().encode(memberRequestDto.getPassword()));
+//        return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
+//    }
+
 }
