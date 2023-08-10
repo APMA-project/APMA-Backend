@@ -33,12 +33,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
+//        super.doFilterInternal(request, response, chain); todo: 이건 왜 넣음...?
         System.out.println("인증이나 권한이 필요한 주소 요청이 됨");
 
-         //jwt토큰 날라옴
-//        String jwtHeader = request.getHeader("Authorization");
-//        System.out.println("jwtHeader: " + jwtHeader);
 
         //JWT 토큰 검증해서 정상적인 사용자인지 확인
         String header = request.getHeader(JwtProperties.headerString);
@@ -55,7 +52,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
         String username = JWT.require(Algorithm.HMAC512(JwtProperties.secret)).build().verify(token)
                 .getClaim("username").asString();
 
-        if (username != null) {;
+        if (username != null) {
             UserEntity user;
             if (username.contains("admin_"))
                 user = adminRepository.findByUsername(username);

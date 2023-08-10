@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,21 +37,21 @@ public class SecurityConfig {
 
 
 //    @Bean
-//    BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
+//    public AuthenticationManager authenticationManager(
+//    ) throws Exception {
+//
+//        return authenticationConfiguration.getAuthenticationManager();
+//    } todo: 이건 메서드가 아니라 클래스입니다...
 
     @Bean
-    public AuthenticationManager authenticationManager(
-    ) throws Exception {
-
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        AuthenticationManager authenticationManager = authenticationManager(http.getSharedObject(AuthenticationConfiguration.class));
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -59,34 +60,17 @@ public class SecurityConfig {
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilter(corsConfig.corsFilter())
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository, adminRepository))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, adminRepository))
+//                .addFilterBefore(new JwtExceptionHandlerFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
-
-                        //수정 좀 부탁드려요...
-
-//                        .requestMatchers("/APMA/admin/**")
-//                        .hasAnyRole("ADMIN")
-//                        .requestMatchers("/APMA/member/**")
-//                        // ROLE_은 알아서 붙여줌!!
-//                        .hasAnyRole("ADMIN", "MEMBER")
-//                        .anyRequest().permitAll())
-//                .build();
-
-
-                        .requestMatchers("/admin/getAdmin")
+                        .requestMatchers("/APMA/admin/**")
                         .hasAnyRole("ADMIN")
-                        .requestMatchers("/api/v1/user/**")
+                        .requestMatchers("/APMA/member/**")
                         // ROLE_은 알아서 붙여줌!!
-                        .hasAnyRole("MEMBER", "ADMIN")
-                        .requestMatchers("/api/v1/manager/**")
-                        .hasAnyRole("ADMIN")
-                        .requestMatchers("/api/v1/admin/**")
-                        .hasAnyRole("ADMIN")
+                        .hasAnyRole("ADMIN", "MEMBER")
                         .anyRequest().permitAll())
                 .build();
 
     }
-
-
 }
