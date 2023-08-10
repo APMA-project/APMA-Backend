@@ -18,11 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/createMember")
-    public ResponseEntity<?> createMember(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
-        return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
-    }
-
     @GetMapping("/getMember")
     public ResponseEntity<?> getMember (@RequestParam("memberId") Long memberId) {
         // Assume memberId is provided as a request parameter
@@ -50,11 +45,5 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
-
-//    @PostMapping("/join")
-//    public ResponseEntity<MemberDto.MemberResponseDto> join(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
-//        memberRequestDto.setPassword(new BCryptPasswordEncoder().encode(memberRequestDto.getPassword()));
-//        return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
-//    }
 
 }
