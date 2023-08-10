@@ -36,13 +36,6 @@ public class SecurityConfig {
     private AdminRepository adminRepository;
 
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(
-//    ) throws Exception {
-//
-//        return authenticationConfiguration.getAuthenticationManager();
-//    } todo: 이건 메서드가 아니라 클래스입니다...
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

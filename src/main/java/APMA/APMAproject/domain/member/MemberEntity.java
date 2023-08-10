@@ -36,7 +36,6 @@ public class MemberEntity implements UserEntity {
 
     private String phoneNumber;
 
-//    private String birthDay; //생년월일
 
     @Column(columnDefinition = "DATE") // 컬럼 정의에 DATE 타입을 사용
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
