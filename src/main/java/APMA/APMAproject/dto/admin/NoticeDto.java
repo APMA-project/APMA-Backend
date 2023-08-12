@@ -64,7 +64,7 @@ public class NoticeDto {
 
         private String content;
 
-        // private List<String> images; //noticeMapper 의 업데이트 로직에서 ignore처리를 하는데 굳이 받을 필요가 없음!!
+         private List<String> images;
 
         private NoticeType noticeType;
 

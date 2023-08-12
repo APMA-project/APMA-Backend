@@ -41,5 +41,10 @@ public class NoticeEntity {
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
 
+    public void updateNoticeImages(List<String> noticeImages) {
+        this.images = noticeImages;
+    }
+
+
 
 }

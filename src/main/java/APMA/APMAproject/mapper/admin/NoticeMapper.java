@@ -36,8 +36,7 @@ public interface NoticeMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "admin", ignore = true),
-            @Mapping(target = "images", ignore = true),
+            @Mapping(target = "admin", ignore = true)
     })
     public void updateFromPatchDto(NoticeDto.NoticePatchDto noticePatchDto, @MappingTarget NoticeEntity noticeEntity);
 

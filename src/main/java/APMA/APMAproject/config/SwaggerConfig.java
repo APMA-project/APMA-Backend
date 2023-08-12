@@ -32,7 +32,7 @@ public class SwaggerConfig {
     public GroupedOpenApi group2() {
         return GroupedOpenApi.builder()
                 .group("ADMIN")
-                .pathsToMatch("/APMA/admin/**","/APMA/member/**")
+                .pathsToMatch("/APMA/admin/**","/APMA/member/**", "/APMA/file/**")
                 // .packagesToScan("com.example.swagger") // package 필터 설정
                 .build();
     }

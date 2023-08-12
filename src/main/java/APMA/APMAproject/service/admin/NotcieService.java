@@ -1,5 +1,6 @@
 package APMA.APMAproject.service.admin;
 
+import APMA.APMAproject.config.S3.S3Service;
 import APMA.APMAproject.domain.admin.AdminEntity;
 import APMA.APMAproject.domain.admin.NoticeEntity;
 import APMA.APMAproject.dto.admin.NoticeDto;
@@ -26,6 +27,8 @@ public class NotcieService {
     private final NoticeRepository noticeRepository;
     private final AdminRepository adminRepository;
     private final NoticeMapper noticeMapper;
+    private final S3Service s3Service;
+
 
 
     @Transactional
@@ -63,6 +66,21 @@ public class NotcieService {
     public void deleteNotice(Long noticeId) {
         noticeRepository.deleteById(noticeId);
         log.info("삭제된 Notice: {}",noticeId);
+    }
+
+    @Transactional
+    public List<String> updateNoticeImages(Long noticeId, List<MultipartFile> imageList) {
+        NoticeEntity noticeEntity = noticeRepository.findById(noticeId)
+                .orElseThrow(()->new NoSuchElementException("등록되지 않은 Notice: " + noticeId));
+
+        //기존 이미지 삭제
+        noticeEntity.getImages().forEach(s3Service::deleteFile);
+
+        //새로운 이미지 업로드
+        List<String> newImageUrls = s3Service.uploadFileList(imageList);
+        noticeEntity.updateNoticeImages(newImageUrls);
+
+        return newImageUrls;
     }
 
 //    @Transactional
