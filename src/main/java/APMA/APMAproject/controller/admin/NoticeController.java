@@ -46,15 +46,7 @@ public class NoticeController {
     }
 
     @PostMapping(value = "/updateNoticeImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> modifyNoticeImages(@RequestParam Long noticeId, @RequestPart List<MultipartFile> imageList) {
+    public ResponseEntity<?> updateNoticeImages(@RequestParam Long noticeId, @RequestPart List<MultipartFile> imageList) {
         return ResponseEntity.ok().body(noticeService.updateNoticeImages(noticeId, imageList));
     }
-
-//    @GetMapping("/getAllNotices")
-//    public ResponseEntity<List<NoticeDto.NoticeResponseDto>> getAllNotices() {
-//        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = noticeService.getAllNotice();
-//        return ResponseEntity.ok().body(noticeResponseDtos);
-//
-//    }
-
 }
