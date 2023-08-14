@@ -29,7 +29,7 @@ public class Init {
 
     @Transactional
     public void initAdmins() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i < 4; i++) {
             AdminEntity admin = new AdminEntity();
             admin.setUsername("admin_" + i);
             admin.setPassword(bCryptPasswordEncoder.encode("admin_" + i));
@@ -42,7 +42,7 @@ public class Init {
 
     @Transactional
     public void initMembers() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i < 4; i++) {
 
             MemberEntity m = new MemberEntity();
             m.setUsername("member" + i);

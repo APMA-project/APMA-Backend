@@ -20,7 +20,6 @@ public class MemberController {
 
     @GetMapping("/getMember")
     public ResponseEntity<?> getMember (@RequestParam("memberId") Long memberId) {
-        // Assume memberId is provided as a request parameter
         memberService.getMember(memberId);
         return ResponseEntity.ok().body("조회된 MemberId: " + memberId);
     }
