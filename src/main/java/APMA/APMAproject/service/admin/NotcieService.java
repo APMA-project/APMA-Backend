@@ -91,10 +91,7 @@ public class NotcieService {
     @Transactional
     public Page<NoticeDto.NoticeResponseDto> searchNoticeByKeyword(String keyword, Pageable pageable) {
 
-        System.out.println(keyword);
         Page<NoticeEntity> searchResultPage = noticeRepository.findKeyword(keyword, pageable);
-        System.out.println("? " + searchResultPage);
-
         //Dto로 변환 후 Page 생성
         Page<NoticeDto.NoticeResponseDto> responseDtoPage = searchResultPage.map(noticeMapper::toResponseDto);
         return responseDtoPage;
