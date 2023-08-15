@@ -7,7 +7,9 @@ import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.NoticeDto;
 import APMA.APMAproject.dto.member.MemberDto;
 import org.mapstruct.*;
+import org.springframework.data.repository.query.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(
@@ -39,6 +41,10 @@ public interface NoticeMapper {
             @Mapping(target = "admin", ignore = true)
     })
     public void updateFromPatchDto(NoticeDto.NoticePatchDto noticePatchDto, @MappingTarget NoticeEntity noticeEntity);
+
+    /**
+     * 검색 결과
+     */
 
 
 }

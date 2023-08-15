@@ -1,20 +1,19 @@
 package APMA.APMAproject.controller.admin;
 
 import APMA.APMAproject.domain.admin.NoticeEntity;
-import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.NoticeDto;
-import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.service.admin.NotcieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,4 +48,21 @@ public class NoticeController {
     public ResponseEntity<?> updateNoticeImages(@RequestParam Long noticeId, @RequestPart List<MultipartFile> imageList) {
         return ResponseEntity.ok().body(noticeService.updateNoticeImages(noticeId, imageList));
     }
+
+    /**
+     * 검색 기능
+     */
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<NoticeDto.NoticeResponseDto>> searchNoticeByKeyword(
+            @RequestParam String keyword,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<NoticeDto.NoticeResponseDto> searchResultPage = noticeService.searchNoticeByKeyword(keyword, pageable);
+        return ResponseEntity.ok().body(searchResultPage);
+    }
+
+
+
+
 }

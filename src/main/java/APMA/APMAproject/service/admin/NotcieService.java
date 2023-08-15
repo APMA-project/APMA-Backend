@@ -1,15 +1,20 @@
 package APMA.APMAproject.service.admin;
 
 import APMA.APMAproject.config.S3.S3Service;
+import APMA.APMAproject.config.spring_security.auth.PrincipalDetails;
 import APMA.APMAproject.domain.admin.AdminEntity;
 import APMA.APMAproject.domain.admin.NoticeEntity;
+import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.NoticeDto;
+import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.mapper.admin.NoticeMapper;
 import APMA.APMAproject.repository.amin.AdminRepository;
 import APMA.APMAproject.repository.amin.NoticeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,24 +88,16 @@ public class NotcieService {
         return newImageUrls;
     }
 
-//    @Transactional
-//    public List<NoticeDto.NoticeResponseDto> getAllNotice(){
-//
-//        List<NoticeEntity> noticeEntities = noticeRepository.getAllNotice();
-//        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
-//
-//        for (NoticeEntity noticeEntity : noticeEntities) {
-//            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
-//            noticeResponseDtos.add(noticeResponseDto);
-//        }
-//
-//        return noticeResponseDtos;
-//    }
+    @Transactional
+    public Page<NoticeDto.NoticeResponseDto> searchNoticeByKeyword(String keyword, Pageable pageable) {
 
+        System.out.println(keyword);
+        Page<NoticeEntity> searchResultPage = noticeRepository.findKeyword(keyword, pageable);
+        System.out.println("? " + searchResultPage);
 
-
-
-
-
+        //Dto로 변환 후 Page 생성
+        Page<NoticeDto.NoticeResponseDto> responseDtoPage = searchResultPage.map(noticeMapper::toResponseDto);
+        return responseDtoPage;
+    }
 
 }

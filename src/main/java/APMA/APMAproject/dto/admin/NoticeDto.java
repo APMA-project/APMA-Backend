@@ -25,6 +25,8 @@ public class NoticeDto {
         @NotNull(message = "Notice Type은 필수값입니다.")
         private NoticeType noticeType;
 
+
+
     }
 
     @Getter
@@ -48,6 +50,8 @@ public class NoticeDto {
 
 
 
+
+
     }
 
 
@@ -67,6 +71,10 @@ public class NoticeDto {
          private List<String> images;
 
         private NoticeType noticeType;
+
+        private String keyword;
+
+
 
     }
 

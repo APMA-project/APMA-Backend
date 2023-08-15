@@ -1,8 +1,11 @@
 package APMA.APMAproject;
 
+import APMA.APMAproject.constant.NoticeType;
 import APMA.APMAproject.domain.admin.AdminEntity;
+import APMA.APMAproject.domain.admin.NoticeEntity;
 import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.repository.amin.AdminRepository;
+import APMA.APMAproject.repository.amin.NoticeRepository;
 import APMA.APMAproject.repository.member.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
@@ -20,11 +23,14 @@ public class Init {
     private final MemberRepository memberRepository;
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final NoticeRepository noticeRepository;
 
     @PostConstruct
     private void initFirst(){
         initAdmins();
         initMembers();
+        initNotices();
+
     }
 
     @Transactional
@@ -64,5 +70,18 @@ public class Init {
             memberRepository.save(m);
         }
 
+    }
+
+    @Transactional
+    public void initNotices() {
+        List<AdminEntity> a = adminRepository.findAll();
+        for (int i = 1; i <= 10; i++) {
+            NoticeEntity n = new NoticeEntity();
+            n.setTitle("제목 " + i);
+            n.setContent("Notice content " + i);
+            n.setAdmin(a.get(1));
+            n.setNoticeType(NoticeType.EVENT);
+            noticeRepository.save(n);
+        }
     }
 }
