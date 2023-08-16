@@ -14,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,13 +89,34 @@ public class NotcieService {
         return newImageUrls;
     }
 
-    @Transactional
-    public Page<NoticeDto.NoticeResponseDto> searchNoticeByKeyword(String keyword, Pageable pageable) {
 
-        Page<NoticeEntity> searchResultPage = noticeRepository.findKeyword(keyword, pageable);
-        //Dto로 변환 후 Page 생성
-        Page<NoticeDto.NoticeResponseDto> responseDtoPage = searchResultPage.map(noticeMapper::toResponseDto);
-        return responseDtoPage;
+    @Transactional
+    public List<NoticeDto.NoticeResponseDto> search(String keyword) {
+
+        List<NoticeEntity> noticeEntities = noticeRepository.findKeyword(keyword);
+        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
+
+
+        for (NoticeEntity noticeEntity :noticeEntities){
+            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
+            noticeResponseDtos.add(noticeResponseDto);
+        }
+
+        return noticeResponseDtos;
     }
+
+//    @Transactional
+//    public Page<NoticeDto.NoticeResponseDto> search(String keyword, Pageable pageable) {
+//
+//        Page<NoticeEntity> noticeEntities = noticeRepository.findKeyword(keyword, pageable);
+//
+//        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = new ArrayList<>();
+//        for (NoticeEntity noticeEntity : noticeEntities) {
+//            NoticeDto.NoticeResponseDto noticeResponseDto = noticeMapper.toResponseDto(noticeEntity);
+//            noticeResponseDtos.add(noticeResponseDto);
+//        }
+//
+//        return new PageImpl<>(noticeResponseDtos, pageable, noticeEntities.getTotalElements());
+//    }
 
 }

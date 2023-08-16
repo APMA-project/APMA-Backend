@@ -29,7 +29,7 @@ public class NoticeController {
     }
 
     @GetMapping("/getNotice")
-    public ResponseEntity<?> getNotice (@RequestParam("noticeId") Long noticeId) {
+    public ResponseEntity<?> getNotice(@RequestParam("noticeId") Long noticeId) {
         return ResponseEntity.ok().body(noticeService.getNotice(noticeId));
     }
 
@@ -52,15 +52,33 @@ public class NoticeController {
     /**
      * 검색 기능
      */
-
     @GetMapping("/search")
-    public ResponseEntity<Page<NoticeDto.NoticeResponseDto>> searchNoticeByKeyword(
-            @RequestParam String keyword,
-            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<?> search(@RequestParam String keyword){
+        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = noticeService.search(keyword);
+        return ResponseEntity.ok(noticeResponseDtos);
 
-        Page<NoticeDto.NoticeResponseDto> searchResultPage = noticeService.searchNoticeByKeyword(keyword, pageable);
-        return ResponseEntity.ok().body(searchResultPage);
     }
+
+//        @GetMapping("/search")
+//        public ResponseEntity<?> search(@RequestParam String keyword, Pageable pageable) {
+//
+//            Page<NoticeDto.NoticeResponseDto> responsePage = noticeService.search(keyword, pageable);
+//            return ResponseEntity.ok().body(responsePage);
+//
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
