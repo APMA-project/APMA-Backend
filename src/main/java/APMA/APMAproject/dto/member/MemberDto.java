@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.Locale;
+
 public class MemberDto {
 
     @Getter
@@ -14,10 +17,9 @@ public class MemberDto {
     @Builder
     public static class MemberRequestDto {
 
-        private Long id;
 
         @NotBlank(message = "아이디를 작성해주세요.")
-        private String userId;
+        private String username;
 
         @Email
         @NotBlank(message = "메일을 작성해주세요.")
@@ -36,6 +38,10 @@ public class MemberDto {
         @Pattern(regexp = "^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$",
                 message = "휴대폰 번호를 정확하게 입력해주세요.")
         private String phoneNumber;
+
+
+        @NotBlank(message = "yyyy-mm-dd 형식으로 작성해주세요.")
+        private LocalDate birthDay;
 
     }
 
@@ -47,13 +53,15 @@ public class MemberDto {
     public static class MemberResponseDto {
         private Long id;
 
-        private String userId;
+        private String username;
 
         private String email;
 
         private String name;
 
         private String phoneNumber;
+
+        private String birthDay;
 
     }
 
@@ -65,7 +73,7 @@ public class MemberDto {
     public static class MemberPatchDto {
 
         @NotBlank(message = "아이디를 작성해주세요.")
-        private String userId;
+        private String username;
 
         @Email
         @NotBlank(message = "메일을 작성해주세요.")
@@ -84,6 +92,9 @@ public class MemberDto {
         @Pattern(regexp = "^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$",
                 message = "휴대폰 번호를 정확하게 입력해주세요.")
         private String phoneNumber;
+
+        @NotBlank(message = "yyyy-mm-dd 형식으로 작성해주세요.")
+        private LocalDate birthDay;
 
     }
 

@@ -1,22 +1,23 @@
 package APMA.APMAproject.controller.admin;
 
 import APMA.APMAproject.domain.admin.NoticeEntity;
-import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.NoticeDto;
-import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.service.admin.NotcieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin")
+@RequestMapping("APMA/admin")
 public class NoticeController {
 
     private final NotcieService noticeService;
@@ -28,10 +29,8 @@ public class NoticeController {
     }
 
     @GetMapping("/getNotice")
-    public ResponseEntity<?> getNotice (@RequestParam("noticeId") Long noticeId) {
-        // Assume memberId is provided as a request parameter
-        noticeService.getNotice(noticeId);
-        return ResponseEntity.ok().body("조회된 MemberId: " + noticeId);
+    public ResponseEntity<?> getNotice(@RequestParam("noticeId") Long noticeId) {
+        return ResponseEntity.ok().body(noticeService.getNotice(noticeId));
     }
 
     @PatchMapping("/updateNotice")
@@ -45,14 +44,43 @@ public class NoticeController {
         return ResponseEntity.ok().body("삭제된 NoticeId: " + noticeId);
     }
 
-    @GetMapping("/getAllNotices")
-    public ResponseEntity<List<NoticeDto.NoticeResponseDto>> getAllNotices() {
-        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = noticeService.getAllNotice();
-        if (!noticeResponseDtos.isEmpty()) {
-            return ResponseEntity.ok().body(noticeResponseDtos);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping(value = "/updateNoticeImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateNoticeImages(@RequestParam Long noticeId, @RequestPart List<MultipartFile> imageList) {
+        return ResponseEntity.ok().body(noticeService.updateNoticeImages(noticeId, imageList));
     }
+
+    /**
+     * 검색 기능
+     */
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String keyword){
+        List<NoticeDto.NoticeResponseDto> noticeResponseDtos = noticeService.search(keyword);
+        return ResponseEntity.ok(noticeResponseDtos);
+
+    }
+
+//        @GetMapping("/search")
+//        public ResponseEntity<?> search(@RequestParam String keyword, Pageable pageable) {
+//
+//            Page<NoticeDto.NoticeResponseDto> responsePage = noticeService.search(keyword, pageable);
+//            return ResponseEntity.ok().body(responsePage);
+//
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -1,5 +1,5 @@
 package APMA.APMAproject.service.member;
-import APMA.APMAproject.domain.admin.AdminEntity;
+
 import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.mapper.member.MemberMapper;
@@ -7,6 +7,7 @@ import APMA.APMAproject.repository.amin.AdminRepository;
 import APMA.APMAproject.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,18 @@ public class MemberService {
     private final AdminRepository adminRepository;
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
 
     @Transactional
     public MemberDto.MemberResponseDto createMember(MemberDto.MemberRequestDto memberRequestDto) {
+
+        /**
+         * encoding
+         */
+
+        if(memberRequestDto.getPassword()!=null) memberRequestDto.setPassword(bCryptPasswordEncoder.encode(memberRequestDto.getPassword()));
 
         // RequestDto -> Entity
         MemberEntity memberEntity = memberMapper.toRequestEntity(memberRequestDto);
@@ -58,11 +68,11 @@ public class MemberService {
         MemberEntity memberEntity = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + memberId));
 
+        if(memberPatchDto.getPassword()!=null) memberPatchDto.setPassword(bCryptPasswordEncoder.encode(memberPatchDto.getPassword()));
+
         // MemberPatchDto에서 변경된 필드 MemberEntity에 반영
         memberMapper.updateFromPatchDto(memberPatchDto,memberEntity);
 
-        // 엔티티 저장
-        memberRepository.save(memberEntity);
 
         return memberMapper.toResponseDto(memberEntity);
     }

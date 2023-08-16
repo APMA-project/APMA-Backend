@@ -26,8 +26,11 @@ public interface MemberMapper {
      * Dto -> Entity
      */
 
+
     @Mapping(target = "password", ignore = true)
     MemberEntity toResponseEntity(MemberDto.MemberResponseDto memberResponseDto);
+
+    @Mapping(target="id", ignore = true)
     MemberEntity toRequestEntity(MemberDto.MemberRequestDto memberRequestDto);
 
     /**

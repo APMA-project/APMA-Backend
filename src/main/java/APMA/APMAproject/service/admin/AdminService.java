@@ -1,14 +1,12 @@
 package APMA.APMAproject.service.admin;
 
 import APMA.APMAproject.domain.admin.AdminEntity;
-import APMA.APMAproject.domain.member.MemberEntity;
 import APMA.APMAproject.dto.admin.AdminDto;
-import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.mapper.admin.AdminMapper;
 import APMA.APMAproject.repository.amin.AdminRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +20,7 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * admin 회원가입 create x
@@ -41,13 +40,13 @@ public class AdminService {
         AdminEntity adminEntity = adminRepository.findById(adminId)
                 .orElseThrow(() -> new NoSuchElementException("등록되지 않은 ID: " + adminId));
 
+        /**
+         * encoding
+         */
+        if(adminPatchDto.getPassword()!=null) adminPatchDto.setPassword(bCryptPasswordEncoder.encode(adminPatchDto.getPassword()));
 
         // MemberPatchDto에서 변경된 필드 MemberEntity에 반영
         adminMapper.updateFromPatchDto(adminPatchDto,adminEntity);
-
-        // 엔티티 저장
-        adminRepository.save(adminEntity);
-
 
         return adminMapper.toResponseDto(adminEntity);
     }

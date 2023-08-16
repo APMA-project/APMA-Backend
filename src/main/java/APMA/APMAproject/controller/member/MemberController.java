@@ -1,7 +1,7 @@
 package APMA.APMAproject.controller.member;
+
 import APMA.APMAproject.dto.member.MemberDto;
 import APMA.APMAproject.service.member.MemberService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +13,13 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("member")
+@RequestMapping("APMA/member")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/createMember")
-    public ResponseEntity<?> createMember(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
-       return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
-    }
-
     @GetMapping("/getMember")
     public ResponseEntity<?> getMember (@RequestParam("memberId") Long memberId) {
-        // Assume memberId is provided as a request parameter
         memberService.getMember(memberId);
         return ResponseEntity.ok().body("조회된 MemberId: " + memberId);
     }
@@ -50,4 +44,5 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

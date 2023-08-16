@@ -34,13 +34,16 @@ public class NoticeEntity {
             name = "notice_images",
             joinColumns = @JoinColumn(name = "notice_id")
     )
-
     @Column(name = "image_url")
     private List<String> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
     private AdminEntity admin;
+
+    public void updateNoticeImages(List<String> noticeImages) {
+        this.images = noticeImages;
+    }
 
 
 }

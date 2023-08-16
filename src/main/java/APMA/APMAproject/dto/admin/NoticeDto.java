@@ -17,7 +17,6 @@ public class NoticeDto {
     @Builder
     public static class NoticeRequestDto {
 
-        private Long id;
 
         private String title;
 
@@ -25,6 +24,8 @@ public class NoticeDto {
 
         @NotNull(message = "Notice Type은 필수값입니다.")
         private NoticeType noticeType;
+
+
 
     }
 
@@ -49,6 +50,8 @@ public class NoticeDto {
 
 
 
+
+
     }
 
 
@@ -65,9 +68,13 @@ public class NoticeDto {
 
         private String content;
 
-        private List<String> images;
+         private List<String> images;
 
         private NoticeType noticeType;
+
+        private String keyword;
+
+
 
     }
 
