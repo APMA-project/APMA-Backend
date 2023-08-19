@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class testController {
+
+    /**
+     * aws 타겟그룹위한 test Controller
+     */
     @GetMapping("/health")
     public String healthCheck() {
         return "Healthy";
