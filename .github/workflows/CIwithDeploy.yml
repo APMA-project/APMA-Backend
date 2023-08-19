@@ -11,7 +11,6 @@ env:
   S3_BUCKET_NAME: apma2023-bucket
   CODE_DEPLOY_APPLICATION_NAME: apma2023-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: apma2023-deployment-gr
-  working-directory: ./APMA-Backend
 
 permissions:
   contents: read
@@ -37,12 +36,10 @@ jobs:
     # 3) gradlew 권한 설정
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      working-directory: ${{ env.working-directory }}
         
     # 4) gradle 빌드
     - name: Build with Gradle
       run: ./gradlew clean build
-      working-directory: ${{ env.working-directory }}
       
     # AWS 인증
     - name: Configure AWS credentials
