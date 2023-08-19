@@ -45,7 +45,7 @@ jobs:
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
       
-   # AWS 인증
+    # AWS 인증
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
