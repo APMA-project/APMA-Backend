@@ -5,7 +5,6 @@ on:
   push:
     branches: [ "master" ]
    
-# flow에서 사용할 변수 같은 느낌입니다.
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: apma2023-bucket
