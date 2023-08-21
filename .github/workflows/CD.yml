@@ -46,7 +46,7 @@ jobs:
           
       
       - name: Copy script
-        run: cp ./scripts/*.sh ./deploy
+        run: cp .github/scripts/*.sh ./deploy
       
       # S3에 업로드
       - name: Upload to S3
