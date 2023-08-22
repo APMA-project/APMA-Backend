@@ -1,5 +1,7 @@
 package APMA.APMAproject;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,11 @@ import java.net.URI;
 import static org.springframework.web.servlet.function.RequestPredicates.GET;
 import static org.springframework.web.servlet.function.RouterFunctions.route;
 
+@OpenAPIDefinition(
+		servers = {
+				@Server(url = "apma2023.net", description = "Default Server url")
+		}
+)
 @SpringBootApplication
 public class ApmaProjectApplication {
 
