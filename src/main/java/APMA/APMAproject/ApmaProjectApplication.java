@@ -16,7 +16,7 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 
 @OpenAPIDefinition(
 		servers = {
-				@Server(url = "apma2023.net", description = "Default Server url")
+				@Server(url = "https://apma2023.net", description = "Default Server url")
 		}
 )
 @SpringBootApplication
