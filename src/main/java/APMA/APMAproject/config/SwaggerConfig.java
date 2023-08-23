@@ -2,12 +2,12 @@ package APMA.APMAproject.config;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
@@ -73,7 +73,7 @@ public class SwaggerConfig {
                         .type(SecurityScheme.Type.HTTP) // HTTP 방식
                         .scheme("bearer"));
 
-        return new OpenAPI()
+        return new OpenAPI().addServersItem(new Server().url("/")) //서버 url 따라가게
                 .info(info)
                 .addSecurityItem(securityRequirement)
                 .components(components);
