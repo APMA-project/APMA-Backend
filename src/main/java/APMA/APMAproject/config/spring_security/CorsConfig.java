@@ -7,6 +7,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 public class CorsConfig {
@@ -17,9 +19,9 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*"); // e.g. http://domain1.com
+        config.setAllowedOrigins(List.of("https://script.google.com","https://apma2023.net","https://apma.o-r.kr")); // e.g. http://domain1.com
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.setAllowedMethods(List.of("GET","POST","PATCH","DELETE"));
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
