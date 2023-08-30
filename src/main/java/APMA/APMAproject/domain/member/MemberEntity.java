@@ -30,7 +30,6 @@ public class MemberEntity implements UserEntity {
 
     private String name;
 
-    private String email;
 
     private String password;
 

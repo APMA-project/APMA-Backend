@@ -53,7 +53,6 @@ public class Init {
             MemberEntity m = new MemberEntity();
             m.setUsername("member" + i);
             m.setPassword(bCryptPasswordEncoder.encode("member" + i));
-            m.setEmail("APMA2023" + i + "@apma.com");
             m.setName("유재석" + i);
             m.setPhoneNumber("010-0000-0000_" + i);
 

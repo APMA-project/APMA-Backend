@@ -21,10 +21,6 @@ public class MemberDto {
         @NotBlank(message = "아이디를 작성해주세요.")
         private String username;
 
-        @Email
-        @NotBlank(message = "메일을 작성해주세요.")
-        private String email;
-
         @NotBlank(message = "이름을 작성해주세요.")
         private String name;
 
@@ -55,8 +51,6 @@ public class MemberDto {
 
         private String username;
 
-        private String email;
-
         private String name;
 
         private String phoneNumber;
@@ -74,10 +68,6 @@ public class MemberDto {
 
         @NotBlank(message = "아이디를 작성해주세요.")
         private String username;
-
-        @Email
-        @NotBlank(message = "메일을 작성해주세요.")
-        private String email;
 
         @NotBlank(message = "이름을 작성해주세요.")
         private String name;
