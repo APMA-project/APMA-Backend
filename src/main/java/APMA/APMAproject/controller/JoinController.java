@@ -20,6 +20,10 @@ public class JoinController {
 
     @PostMapping("/member")
     public ResponseEntity<?> createMember(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
-        return ResponseEntity.ok().body(memberService.createMember(memberRequestDto));
+        log.info("createMember 진입 !!");
+        log.info("memberRequestDto의 username : " + memberRequestDto.getUsername());
+        MemberDto.MemberResponseDto member = memberService.createMember(memberRequestDto);
+        log.info("memberResponseDto의 username : " + member.getUsername());
+        return ResponseEntity.ok().body(member);
     }
 }
