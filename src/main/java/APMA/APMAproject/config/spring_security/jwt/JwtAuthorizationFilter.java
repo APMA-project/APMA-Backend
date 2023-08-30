@@ -10,6 +10,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import java.io.IOException;
 
 //권한이나 인증이 필요한 특정 주소를 요청했을 때 BasicAuthenticationFilter 무조건 탐
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
 
@@ -33,12 +35,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("인증이나 권한이 필요한 주소 요청이 됨");
+        log.info("인가 필터 진입!!!");
 
 
         //JWT 토큰 검증해서 정상적인 사용자인지 확인
         String header = request.getHeader(JwtProperties.headerString);
         if (header == null || !header.startsWith(JwtProperties.tokenPrefix)) {
+            log.info("토큰이 없음!! doFilter 수행");
             chain.doFilter(request, response);
             return;
         }
