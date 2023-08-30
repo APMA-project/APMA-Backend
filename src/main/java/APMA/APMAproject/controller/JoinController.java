@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JoinController {
 
     private final MemberService memberService;
-
-    @PostMapping("/member")
+    @PostMapping(value = "/member")
     public ResponseEntity<?> createMember(@RequestBody MemberDto.MemberRequestDto memberRequestDto) {
         //로그
         log.info("createMember 진입 !!");
