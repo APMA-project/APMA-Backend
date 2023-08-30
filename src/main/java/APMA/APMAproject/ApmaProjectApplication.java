@@ -14,7 +14,6 @@ import java.net.URI;
 import static org.springframework.web.servlet.function.RequestPredicates.GET;
 import static org.springframework.web.servlet.function.RouterFunctions.route;
 
-@OpenAPIDefinition(servers = {@Server(url = "https://apma2023.net", description = "Default Server URL")} )
 @SpringBootApplication
 public class ApmaProjectApplication {
 
